@@ -10,7 +10,7 @@ function App() {
 const StudentsSchema = z.object({
   nombre: z.string().min(3, "El nombre es demasiado corto para ser registrado"),
   email: z.string().email("Formato incorrecto"),
-  curso: z.enum(["1DAM", "2DAM"])
+  curso: z.enum(["1 DAM", "2 DAM"])
 })
 
 type Student = z.infer<typeof StudentsSchema>;
@@ -26,18 +26,19 @@ const Confirmar = (e) => {
 
   const resultado= StudentsSchema.safeParse(datos);
 
-  if(!resultado.success) {
-    console.log("Errores encontrados: ", resultado.error.format);
-  } else{
-    console.log("Guardando estudiante: ", resultado.data);
+  if (!resultado.success) {
+    alert(resultado.error.issues[0].message);
+  } else {
+    alert("Registro exitoso:\n" + JSON.stringify(resultado.data, null, 2));
   }
+
 }
 
 return(
   <>
     <div className="container">
         <h1>Registro</h1>
-          <form>
+          <form onSubmit={Confirmar} >
             <fieldset className="flex flex-col gap-5">
               <div>
                 <label className="mr-4">Nombre:</label>
@@ -53,19 +54,17 @@ return(
             </div>
             <div>
               <label className="mr-4">Curso:</label>
-            <select className="border-2 border-black rounded mx-auto">
+            <select className="border-2 border-black rounded mx-auto" onChange={(e) => {
+                setCurso(e.target.value)
+              }}>
               <option value="">
                 Selecciona el curso al que pertenece
               </option>
-              <option value="1DAM" onChange={(e) => {
-                setCurso(e.target.value)
-              }}>1 DAM</option>
-              <option value="2DAM" onChange={(e) => {
-                setCurso(e.target.value)
-              }}>2 DAM</option>
+              <option value="1 DAM" >1 DAM</option>
+              <option value="2 DAM" >2 DAM</option>
             </select>
             </div>
-            <button onSubmit={Confirmar} className="bg-blue-700 text-white rounded w-fit p-1.5 mx-auto cursor-pointer hover:bg-blue-500" type="submit" name="Confirmar">Registrarse</button>
+            <button type="submit" className="bg-blue-700 text-white rounded w-fit p-1.5 mx-auto cursor-pointer hover:bg-blue-500">Validar y guardar</button>
             </fieldset>
           </form>
     </div>
