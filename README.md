@@ -19,7 +19,7 @@
 
 # DESPLIEGUE
 ## Clonar el repositorio
-git clone https://github.com/TU_USUARIO/registro-estudiantes.git
+git clone (https://github.com/jose-mariamd/LMSGI_ACT23_JMMD)
 
 ## Entrar en el proyecto
 cd registro-estudiantes
